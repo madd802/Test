@@ -1,21 +1,82 @@
+import { IconButton, Menu, MenuItem } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Button, { ButtonProps } from "@mui/material/Button";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { Link as RouterLink } from "react-router-dom";
+import { useState } from "react";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import MenuIcon from "@mui/icons-material/Menu";
 
 export default function ShellHeader() {
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const navigate = useNavigate();
+
+  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleNavigate = (path: string) => {
+    navigate(path);
+    handleClose();
+  };
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Toolbar>
           <HomeButton />
-          <Box sx={{ flexGrow: 1, display: "flex" }}>
+           {/* TODO: fix style */}
+          {/* Desktop version */}
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <HeaderButton to="/SupplierList">Suppliers</HeaderButton>
             <HeaderButton to="/CustomerList">Customers</HeaderButton>
             <HeaderButton to="/EmployeeList">Employees</HeaderButton>
-            <HeaderLinkButton href="/swagger" variant="outlined">Swagger UI</HeaderLinkButton>
+            <HeaderLinkButton href="/swagger" variant="outlined">
+              Swagger UI
+            </HeaderLinkButton>
+          </Box>
+          {/* Mobile version */}
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+              onClick={handleMenu}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "right",
+              }}
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "right",
+              }}
+            >
+              <MenuItem onClick={() => handleNavigate("/SupplierList")}>
+                Suppliers
+              </MenuItem>
+              <MenuItem onClick={() => handleNavigate("/CustomerList")}>
+                Customers
+              </MenuItem>
+              <MenuItem onClick={() => handleNavigate("/EmployeeList")}>
+                Employees
+              </MenuItem>
+              <MenuItem component="a" href="/swagger" onClick={handleClose}>
+                Swagger UI
+              </MenuItem>
+            </Menu>
           </Box>
         </Toolbar>
       </AppBar>
