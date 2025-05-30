@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   CircularProgress,
   Paper,
@@ -88,15 +89,16 @@ export default function CustomerListPage() {
         <div>{errorToDisplay.errorMessage.toString()}</div>
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-          <div
-            style={{
+          <Box
+            sx={{
               display: "flex",
-              gap: "10px",
-              justifyContent: "space-between",
+              gap: 2,
+              justifyContent: { xs: "center", sm: "space-between" },
+              flexDirection: { xs: "column", sm: "row" },
             }}
           >
             <TextField
-              sx={{ width: "70%" }}
+              sx={{ width: {xs: "100%", sm:"70%"}}}
               label="Filtra per nome e mail"
               variant="outlined"
               value={filter}
@@ -109,7 +111,7 @@ export default function CustomerListPage() {
             <Button variant="contained" onClick={() => handleClick()}>
               ESPORTA XML
             </Button>
-          </div>
+          </Box>
 
           <TableContainer
             component={Paper}
@@ -161,4 +163,3 @@ export default function CustomerListPage() {
     </>
   );
 }
-
