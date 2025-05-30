@@ -107,7 +107,7 @@ export default function CustomerListPage() {
               }}
               fullWidth
             />
-            <Button sx={{width: '25%'}}variant="contained" onClick={() => handleClick()}>
+            <Button sx={{width: {xs:'100%', sm: '25%'}}}variant="contained" onClick={() => handleClick()}>
               ESPORTA XML
             </Button>
           </Box>
