@@ -2,11 +2,9 @@ import {
   Button,
   CircularProgress,
   Paper,
-  styled,
   Table,
   TableBody,
   TableCell,
-  tableCellClasses,
   TableContainer,
   TableHead,
   TableRow,
@@ -15,6 +13,7 @@ import {
 } from "@mui/material";
 import exportFromJSON from "export-from-json";
 import { useEffect, useState } from "react";
+import StyledTableHeadCell from "../components/StyledTableHeadCell";
 
 //types
 type CustomersListQueryResponseCategory = {
@@ -48,6 +47,7 @@ export default function CustomerListPage() {
     errorMessage: "",
   });
 
+  // fetching data and display list
   useEffect(() => {
     fetch(`/api/customers/list?SearchText=${debouncedQuery}`)
       .then((response) => {
@@ -71,7 +71,7 @@ export default function CustomerListPage() {
   }, [filter]);
 
   const handleClick = () => {
-    exportFromJSON({data: list, fileName, exportType});
+    exportFromJSON({ data: list, fileName, exportType });
   };
 
   return (
@@ -80,7 +80,6 @@ export default function CustomerListPage() {
         Customers
       </Typography>
 
- {/* TODO: fix style for mobile version */}
       {isLoading ? (
         <div style={{ display: "flex", justifyContent: "center" }}>
           <CircularProgress />
@@ -112,7 +111,13 @@ export default function CustomerListPage() {
             </Button>
           </div>
 
-          <TableContainer component={Paper}>
+          <TableContainer
+            component={Paper}
+            sx={{
+              overflowX: "auto",
+              maxWidth: "100%",
+            }}
+          >
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
               <TableHead>
                 <TableRow>
@@ -122,7 +127,9 @@ export default function CustomerListPage() {
                   <StyledTableHeadCell>Phone</StyledTableHeadCell>
                   <StyledTableHeadCell>Iban</StyledTableHeadCell>
                   <StyledTableHeadCell>Category Code</StyledTableHeadCell>
-                  <StyledTableHeadCell>Category Description</StyledTableHeadCell>
+                  <StyledTableHeadCell>
+                    Category Description
+                  </StyledTableHeadCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -135,10 +142,15 @@ export default function CustomerListPage() {
                     <TableCell>{row.address}</TableCell>
                     <TableCell>{row.email}</TableCell>
                     <TableCell>{row.phone}</TableCell>
-                    <TableCell>{row.iban}</TableCell> 
-                    <TableCell sx={{textAlign: 'center'}}>{row.category?.code ? row.category?.code: '-'}</TableCell>
-                    <TableCell>{row.category?.description ? row.category?.description : '-' }</TableCell>
-                  
+                    <TableCell>{row.iban}</TableCell>
+                    <TableCell sx={{ textAlign: "center" }}>
+                      {row.category?.code ? row.category?.code : "-"}
+                    </TableCell>
+                    <TableCell>
+                      {row.category?.description
+                        ? row.category?.description
+                        : "-"}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -149,9 +161,4 @@ export default function CustomerListPage() {
     </>
   );
 }
-const StyledTableHeadCell = styled(TableCell)(({ theme }) => ({
-  [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.primary.light,
-    color: theme.palette.common.white,
-  },
-}));
+

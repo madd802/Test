@@ -28,9 +28,8 @@ export default function ShellHeader() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar sx={{display: {xs: "flex", md:"auto"}, justifyContent: { xs: 'space-between' }}}>
           <HomeButton />
-           {/* TODO: fix style */}
           {/* Desktop version */}
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             <HeaderButton to="/SupplierList">Suppliers</HeaderButton>
@@ -40,7 +39,7 @@ export default function ShellHeader() {
               Swagger UI
             </HeaderLinkButton>
           </Box>
-          {/* Mobile version */}
+          {/* Mobile version - Hamburger Menu */}
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
