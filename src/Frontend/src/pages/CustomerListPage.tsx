@@ -98,7 +98,6 @@ export default function CustomerListPage() {
             }}
           >
             <TextField
-              sx={{ width: {xs: "100%", sm:"70%"}}}
               label="Filtra per nome e mail"
               variant="outlined"
               value={filter}
@@ -108,7 +107,7 @@ export default function CustomerListPage() {
               }}
               fullWidth
             />
-            <Button variant="contained" onClick={() => handleClick()}>
+            <Button sx={{width: '25%'}}variant="contained" onClick={() => handleClick()}>
               ESPORTA XML
             </Button>
           </Box>
@@ -148,7 +147,7 @@ export default function CustomerListPage() {
                     <TableCell sx={{ textAlign: "center" }}>
                       {row.category?.code ? row.category?.code : "-"}
                     </TableCell>
-                    <TableCell>
+                    <TableCell sx={{ textAlign: "center" }}>
                       {row.category?.description
                         ? row.category?.description
                         : "-"}
